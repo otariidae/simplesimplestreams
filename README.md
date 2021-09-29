@@ -14,6 +14,8 @@ client = SimpleStreamsClient(url="https://images.linuxcontainers.org")
 images = client.list_images()
 ```
 
+See [API docs](https://otariidae.github.io/simplesimplestreams/) for more infomation.
+
 ## Development
 
 Install dependencies with poetry: `poetry install` \
