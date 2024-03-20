@@ -15,7 +15,7 @@ requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
 types-requests = "^2.25.9"
-black = "^21.9b0"
+black = "^24.3"
 mypy = "^0.910"
 pytest = "^6.2.5"
 Sphinx = "^4.2.0"
