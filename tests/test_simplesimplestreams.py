@@ -10,7 +10,7 @@ def test_version() -> None:
     with pyproject.open("rb") as f:
         project = tomli.load(f)
 
-    assert __version__ == project["tool"]["poetry"]["version"]
+    assert __version__ == project["project"]["version"]
 
 
 @pytest.mark.parametrize(
