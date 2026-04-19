@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from simplesimplestreams import __version__, SimpleStreamsClient, Product
+from simplesimplestreams import __version__, SimpleStreamsClient
 
 tomllib = import_module("tomllib" if sys.version_info >= (3, 11) else "tomli")
 
