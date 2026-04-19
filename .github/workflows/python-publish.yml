@@ -22,11 +22,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.9"
       - name: Install Poetry with pipx
         run: |
           python -m pip install --user --upgrade pip pipx
-          ~/.local/bin/pipx install poetry
+          ~/.local/bin/pipx install "poetry==1.8.5"
       - name: Build package
         run: ~/.local/bin/poetry build
       - name: Publish to PyPI
