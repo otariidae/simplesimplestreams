@@ -75,6 +75,8 @@
 <span class="c1"># port of lxc/lxd/shared/simplesreams.go</span>
 <span class="c1"># based on lxd 4.18</span>
 
+<span class="n">DEFAULT_REQUEST_TIMEOUT</span> <span class="o">=</span> <span class="mi">30</span>
+
 
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/index.go#L11</span>
 <div class="viewcode-block" id="StreamIndex">
@@ -176,12 +178,16 @@
         <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/client/connection.go#L191</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">DEFAULT_REQUEST_TIMEOUT</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
 <div class="viewcode-block" id="SimpleStreamsClient.get_stream">
 <a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.get_stream">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="p">:</span>
         <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L152</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="s2">&quot;streams/v1/index.json&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Stream</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Stream</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_json</span><span class="p">(</span><span class="s2">&quot;streams/v1/index.json&quot;</span><span class="p">))</span></div>
 
 
     <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L175</span>
@@ -189,8 +195,7 @@
 <div class="viewcode-block" id="SimpleStreamsClient.get_products">
 <a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.get_products">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Products</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Products</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Products</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_json</span><span class="p">(</span><span class="n">path</span><span class="p">))</span></div>
 
 
     <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L277</span>
