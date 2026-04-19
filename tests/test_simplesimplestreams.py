@@ -2,10 +2,61 @@ from importlib import import_module
 import sys
 from pathlib import Path
 
-import pytest
-from simplesimplestreams import __version__, SimpleStreamsClient
+import responses
+from simplesimplestreams import Products, SimpleStreamsClient, Stream, __version__
 
 tomllib = import_module("tomllib" if sys.version_info >= (3, 11) else "tomli")
+
+
+SAMPLE_STREAM: Stream = {
+    "format": "index:1.0",
+    "updated": "2026-04-20T00:00:00Z",
+    "index": {
+        "images": {
+            "datatype": "image-downloads",
+            "path": "streams/v1/images.json",
+            "updated": None,
+            "products": ["ubuntu:noble:amd64"],
+            "format": "products:1.0",
+        },
+        "empty-images": {
+            "datatype": "image-downloads",
+            "path": "streams/v1/empty.json",
+            "updated": None,
+            "products": [],
+            "format": "products:1.0",
+        },
+        "non-images": {
+            "datatype": "other",
+            "path": "streams/v1/other.json",
+            "updated": None,
+            "products": ["ignored"],
+            "format": "products:1.0",
+        },
+    },
+}
+
+SAMPLE_PRODUCTS: Products = {
+    "content_id": "images",
+    "datatype": "image-downloads",
+    "format": "products:1.0",
+    "license": None,
+    "updated": "2026-04-20T00:00:00Z",
+    "products": {
+        "ubuntu:noble:amd64": {
+            "aliases": "24.04,noble",
+            "arch": "amd64",
+            "os": "ubuntu",
+            "release": "24.04",
+            "release_codename": "noble",
+            "release_title": "Ubuntu 24.04 LTS",
+            "supported": True,
+            "supported_eol": None,
+            "version": "20260420",
+            "versions": {},
+        }
+    },
+}
 
 
 def test_version() -> None:
@@ -16,16 +67,46 @@ def test_version() -> None:
     assert __version__ == project["project"]["version"]
 
 
-@pytest.mark.parametrize(
-    "server_url",
-    ["https://images.linuxcontainers.org", "https://cloud-images.ubuntu.com/releases"],
-)
-def test_simplestreamsclient(server_url: str) -> None:
-    ss = SimpleStreamsClient(url=server_url)
-    images = ss.list_images()
-    assert type(images) is list
-    for image in images:
-        assert "aliases" in image and type(image["aliases"]) is str
-        assert "arch" in image and type(image["arch"]) is str
-        assert "release" in image and type(image["release"]) is str
-        assert "release_title" in image and type(image["release_title"]) is str
+@responses.activate
+def test_get_stream_uses_index_endpoint() -> None:
+    responses.get(
+        "https://example.test/streams/v1/index.json",
+        json=SAMPLE_STREAM,
+        status=200,
+    )
+
+    client = SimpleStreamsClient(url="https://example.test/")
+    stream = client.get_stream()
+
+    assert stream == SAMPLE_STREAM
+    assert len(responses.calls) == 1
+    assert (
+        responses.calls[0].request.url == "https://example.test/streams/v1/index.json"
+    )
+
+
+@responses.activate
+def test_list_images_filters_non_image_entries() -> None:
+    responses.get(
+        "https://example.test/streams/v1/index.json",
+        json=SAMPLE_STREAM,
+        status=200,
+    )
+    responses.get(
+        "https://example.test/streams/v1/images.json",
+        json=SAMPLE_PRODUCTS,
+        status=200,
+    )
+
+    client = SimpleStreamsClient(url="https://example.test")
+    images = client.list_images()
+
+    assert [call.request.url for call in responses.calls] == [
+        "https://example.test/streams/v1/index.json",
+        "https://example.test/streams/v1/images.json",
+    ]
+    assert images == list(SAMPLE_PRODUCTS["products"].values())
+
+    image = images[0]
+    for field in ("aliases", "arch", "release", "release_title"):
+        assert isinstance(image[field], str)
