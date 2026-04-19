@@ -1,9 +1,16 @@
+from pathlib import Path
+
 import pytest
+import tomli
 from simplesimplestreams import __version__, SimpleStreamsClient, Product
 
 
 def test_version() -> None:
-    assert __version__ == "0.1.1"
+    pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
+    with pyproject.open("rb") as f:
+        project = tomli.load(f)
+
+    assert __version__ == project["tool"]["poetry"]["version"]
 
 
 @pytest.mark.parametrize(
