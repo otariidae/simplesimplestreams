@@ -18,7 +18,7 @@ See [API docs](https://otariidae.github.io/simplesimplestreams/) for more infoma
 
 ## Development
 
-Install dependencies with poetry: `poetry install` \
+Sync dependencies with poetry: `poetry sync` \
 Run type check: `poetry run mypy . --strict` \
 Run tests: `poetry run pytest` \
 Format code: `poetry run black .`
