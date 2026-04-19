@@ -1,13 +1,11 @@
+from importlib import import_module
 import sys
 from pathlib import Path
 
 import pytest
 from simplesimplestreams import __version__, SimpleStreamsClient, Product
 
-if sys.version_info >= (3, 11):
-    import tomllib
-else:  # pragma: no cover - Python < 3.11
-    import tomli as tomllib  # type: ignore[import-not-found,no-redef]
+tomllib = import_module("tomllib" if sys.version_info >= (3, 11) else "tomli")
 
 
 def test_version() -> None:
