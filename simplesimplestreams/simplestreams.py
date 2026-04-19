@@ -4,6 +4,7 @@ import requests
 # port of lxc/lxd/shared/simplesreams.go
 # based on lxd 4.18
 
+
 # https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/index.go#L11
 class StreamIndex(TypedDict):
     datatype: str

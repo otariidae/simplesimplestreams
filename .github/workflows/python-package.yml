@@ -29,6 +29,10 @@ jobs:
           pipx install "poetry==2.2.1"
       - name: Sync dependencies
         run: poetry sync
+      - name: Lint with Ruff
+        run: |
+          poetry run ruff check .
+          poetry run ruff format --check .
       - name: Type check with mypy
         run: poetry run mypy . --strict
       - name: Test with pytest

@@ -21,9 +21,10 @@ See [API docs](https://otariidae.github.io/simplesimplestreams/) for more infoma
 Supported Python versions: 3.10-3.14
 
 Sync dependencies with poetry: `poetry sync` \
+Run lint: `poetry run ruff check .` \
 Run type check: `poetry run mypy . --strict` \
 Run tests: `poetry run pytest` \
-Format code: `poetry run black .`
+Format code: `poetry run ruff format .`
 
 ## Publishing
 
