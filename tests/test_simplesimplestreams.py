@@ -1,14 +1,19 @@
+import sys
 from pathlib import Path
 
 import pytest
-import tomli
 from simplesimplestreams import __version__, SimpleStreamsClient, Product
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:  # pragma: no cover - Python < 3.11
+    import tomli as tomllib  # type: ignore[import-not-found,no-redef]
 
 
 def test_version() -> None:
     pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
     with pyproject.open("rb") as f:
-        project = tomli.load(f)
+        project = tomllib.load(f)
 
     assert __version__ == project["project"]["version"]
 
