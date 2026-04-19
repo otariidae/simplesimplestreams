@@ -4,6 +4,8 @@ import requests
 # port of lxc/lxd/shared/simplesreams.go
 # based on lxd 4.18
 
+DEFAULT_REQUEST_TIMEOUT = 30
+
 
 # https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/index.go#L11
 class StreamIndex(TypedDict):
@@ -88,16 +90,19 @@ class SimpleStreamsClient:
         # https://github.com/lxc/lxd/blob/lxd-4.18/client/connection.go#L191
         self.url = url.removesuffix("/")
 
+    def _get_json(self, path: str) -> object:
+        response = requests.get(f"{self.url}/{path}", timeout=DEFAULT_REQUEST_TIMEOUT)
+        response.raise_for_status()
+        return response.json()
+
     def get_stream(self) -> Stream:
         # https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L152
-        response = requests.get(self.url + "/" + "streams/v1/index.json")
-        return cast(Stream, response.json())
+        return cast(Stream, self._get_json("streams/v1/index.json"))
 
     # https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L175
     # example: path="streams/v1/images.json"
     def get_products(self, path: str) -> Products:
-        response = requests.get(self.url + "/" + path)
-        return cast(Products, response.json())
+        return cast(Products, self._get_json(path))
 
     # https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L277
     def list_images(self) -> list[Product]:

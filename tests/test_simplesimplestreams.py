@@ -2,7 +2,10 @@ from importlib import import_module
 import sys
 from pathlib import Path
 
+import pytest
+import requests
 import responses
+from responses import matchers
 from simplesimplestreams import Products, SimpleStreamsClient, Stream, __version__
 
 tomllib = import_module("tomllib" if sys.version_info >= (3, 11) else "tomli")
@@ -73,6 +76,7 @@ def test_get_stream_uses_index_endpoint() -> None:
         "https://example.test/streams/v1/index.json",
         json=SAMPLE_STREAM,
         status=200,
+        match=[matchers.request_kwargs_matcher({"timeout": 30})],
     )
 
     client = SimpleStreamsClient(url="https://example.test/")
@@ -91,11 +95,13 @@ def test_list_images_filters_non_image_entries() -> None:
         "https://example.test/streams/v1/index.json",
         json=SAMPLE_STREAM,
         status=200,
+        match=[matchers.request_kwargs_matcher({"timeout": 30})],
     )
     responses.get(
         "https://example.test/streams/v1/images.json",
         json=SAMPLE_PRODUCTS,
         status=200,
+        match=[matchers.request_kwargs_matcher({"timeout": 30})],
     )
 
     client = SimpleStreamsClient(url="https://example.test")
@@ -110,3 +116,43 @@ def test_list_images_filters_non_image_entries() -> None:
     image = images[0]
     for field in ("aliases", "arch", "release", "release_title"):
         assert isinstance(image[field], str)
+
+
+@responses.activate
+def test_get_products_uses_relative_path_with_timeout() -> None:
+    payload: Products = {
+        "content_id": "images",
+        "datatype": "image-downloads",
+        "format": "products:1.0",
+        "license": None,
+        "products": {},
+        "updated": None,
+    }
+    responses.get(
+        "https://example.test/streams/v1/images.json",
+        json=payload,
+        status=200,
+        match=[matchers.request_kwargs_matcher({"timeout": 30})],
+    )
+
+    client = SimpleStreamsClient(url="https://example.test")
+
+    assert client.get_products("streams/v1/images.json") == payload
+    assert len(responses.calls) == 1
+    assert (
+        responses.calls[0].request.url == "https://example.test/streams/v1/images.json"
+    )
+
+
+@responses.activate
+def test_get_stream_raises_for_http_errors() -> None:
+    responses.get(
+        "https://example.test/streams/v1/index.json",
+        status=503,
+        match=[matchers.request_kwargs_matcher({"timeout": 30})],
+    )
+
+    client = SimpleStreamsClient(url="https://example.test")
+
+    with pytest.raises(requests.HTTPError):
+        client.get_stream()
