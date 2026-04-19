@@ -23,6 +23,11 @@ Run type check: `poetry run mypy . --strict` \
 Run tests: `poetry run pytest` \
 Format code: `poetry run black .`
 
+## Publishing
+
+PyPI releases are published by `.github/workflows/python-publish.yml` using PyPI trusted publishing.
+After registering this repository, workflow file, and the `pypi` GitHub Actions environment as a trusted publisher on PyPI, push a version tag such as `0.1.2`.
+
 ## License
 
 Apache-2.0
