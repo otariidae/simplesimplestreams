@@ -1,19 +1,20 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>simplesimplestreams.simplestreams &mdash; simplesimplestreams 0.1.2 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=92734c54"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -24,14 +25,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> simplesimplestreams
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            simplesimplestreams
           </a>
-              <div class="version">
-                0.1.2
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,9 +57,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>simplesimplestreams.simplestreams</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">simplesimplestreams.simplestreams</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -67,14 +69,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for simplesimplestreams.simplestreams</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypedDict</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypedDict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
 <span class="c1"># port of lxc/lxd/shared/simplesreams.go</span>
 <span class="c1"># based on lxd 4.18</span>
 
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/index.go#L11</span>
-<div class="viewcode-block" id="StreamIndex"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.StreamIndex">[docs]</a><span class="k">class</span> <span class="nc">StreamIndex</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="StreamIndex">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.StreamIndex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StreamIndex</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">updated</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
@@ -82,11 +86,15 @@
     <span class="nb">format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
 
 
+
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/index.go#L4</span>
-<div class="viewcode-block" id="Stream"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.Stream">[docs]</a><span class="k">class</span> <span class="nc">Stream</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="Stream">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.Stream">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Stream</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">index</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StreamIndex</span><span class="p">]</span>
     <span class="n">updated</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span></div>
+
 
 
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/products.go#L48</span>
@@ -113,14 +121,17 @@
 
 
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/products.go#L41</span>
-<div class="viewcode-block" id="ProductVersion"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.ProductVersion">[docs]</a><span class="k">class</span> <span class="nc">ProductVersion</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="ProductVersion">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.ProductVersion">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProductVersion</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">items</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProductVersionItem</span><span class="p">]</span>
     <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">pubname</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
 
 
+
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/products.go#L24</span>
-<span class="k">class</span> <span class="nc">_Product</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_Product</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">aliases</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">arch</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">os</span><span class="p">:</span> <span class="nb">str</span>
@@ -133,14 +144,19 @@
     <span class="n">versions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProductVersion</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Product"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.Product">[docs]</a><span class="k">class</span> <span class="nc">Product</span><span class="p">(</span><span class="n">_Product</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Product">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.Product">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Product</span><span class="p">(</span><span class="n">_Product</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="c1"># non-standard keys, can be missing</span>
     <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/products.go#L36</span>
     <span class="n">variant</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
+
 <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/products.go#L14</span>
-<div class="viewcode-block" id="Products"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.Products">[docs]</a><span class="k">class</span> <span class="nc">Products</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<div class="viewcode-block" id="Products">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.Products">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Products</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
     <span class="n">content_id</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">datatype</span><span class="p">:</span> <span class="nb">str</span>
     <span class="nb">format</span><span class="p">:</span> <span class="nb">str</span>
@@ -149,26 +165,37 @@
     <span class="n">updated</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="SimpleStreamsClient"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient">[docs]</a><span class="k">class</span> <span class="nc">SimpleStreamsClient</span><span class="p">:</span>
+
+<div class="viewcode-block" id="SimpleStreamsClient">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleStreamsClient</span><span class="p">:</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/client/connection.go#L191</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SimpleStreamsClient.get_stream"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.get_stream">[docs]</a>    <span class="k">def</span> <span class="nf">get_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="p">:</span>
+<div class="viewcode-block" id="SimpleStreamsClient.get_stream">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.get_stream">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Stream</span><span class="p">:</span>
         <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L152</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="s2">&quot;streams/v1/index.json&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Stream</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span></div>
 
+
     <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L175</span>
     <span class="c1"># example: path=&quot;streams/v1/images.json&quot;</span>
-<div class="viewcode-block" id="SimpleStreamsClient.get_products"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.get_products">[docs]</a>    <span class="k">def</span> <span class="nf">get_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Products</span><span class="p">:</span>
+<div class="viewcode-block" id="SimpleStreamsClient.get_products">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.get_products">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Products</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="n">Products</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span></div>
 
+
     <span class="c1"># https://github.com/lxc/lxd/blob/lxd-4.18/shared/simplestreams/simplestreams.go#L277</span>
-<div class="viewcode-block" id="SimpleStreamsClient.list_images"><a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.list_images">[docs]</a>    <span class="k">def</span> <span class="nf">list_images</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Product</span><span class="p">]:</span>
+<div class="viewcode-block" id="SimpleStreamsClient.list_images">
+<a class="viewcode-back" href="../../simplesimplestreams.html#simplesimplestreams.SimpleStreamsClient.list_images">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_images</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Product</span><span class="p">]:</span>
         <span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stream</span><span class="p">()</span>
         <span class="n">stream_index</span> <span class="o">=</span> <span class="n">stream</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">]</span>
         <span class="n">all_images</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Product</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -183,7 +210,9 @@
             <span class="n">product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_products</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
             <span class="n">products</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s2">&quot;products&quot;</span><span class="p">]</span>
             <span class="n">all_images</span> <span class="o">+=</span> <span class="n">products</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">all_images</span></div></div>
+        <span class="k">return</span> <span class="n">all_images</span></div>
+</div>
+
 </pre></div>
 
            </div>
