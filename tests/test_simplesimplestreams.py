@@ -1,14 +1,17 @@
+from importlib import import_module
+import sys
 from pathlib import Path
 
 import pytest
-import tomli
 from simplesimplestreams import __version__, SimpleStreamsClient, Product
+
+tomllib = import_module("tomllib" if sys.version_info >= (3, 11) else "tomli")
 
 
 def test_version() -> None:
     pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
     with pyproject.open("rb") as f:
-        project = tomli.load(f)
+        project = tomllib.load(f)
 
     assert __version__ == project["project"]["version"]
 
